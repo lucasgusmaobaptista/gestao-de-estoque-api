@@ -187,6 +187,3 @@ A documentação da API também pode ser acessada via Swagger após a execução
 ```
 http://localhost:8080/swagger-ui.html
 ```
-
-
-.
