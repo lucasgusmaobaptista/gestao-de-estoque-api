@@ -11,7 +11,7 @@ Esta é uma API REST para gerenciamento de estoque, desenvolvida em Java com Spr
 - Spring Data JPA
 - Hibernate
 - Maven
-- Swagger (OpenAPI
+- Swagger (OpenAPI)
 
 ## Ferramentas Utilizadas
 - IntelliJ IDEA (IDE)
