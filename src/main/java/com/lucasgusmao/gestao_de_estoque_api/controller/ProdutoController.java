@@ -1,7 +1,11 @@
 package com.lucasgusmao.gestao_de_estoque_api.controller;
 
 import com.lucasgusmao.gestao_de_estoque_api.dto.ProdutoDTO;
+import com.lucasgusmao.gestao_de_estoque_api.model.Categoria;
+import com.lucasgusmao.gestao_de_estoque_api.model.Fornecedor;
 import com.lucasgusmao.gestao_de_estoque_api.model.Produto;
+import com.lucasgusmao.gestao_de_estoque_api.repository.CategoriaRepository;
+import com.lucasgusmao.gestao_de_estoque_api.repository.FornecedorRepository;
 import com.lucasgusmao.gestao_de_estoque_api.service.ProdutoSevice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +18,13 @@ import java.util.stream.Collectors;
 public class ProdutoController {
 
     private ProdutoSevice produtoSevice;
+    private CategoriaRepository categoriaRepository;
+    private FornecedorRepository fornecedorRepository;
 
-    public ProdutoController(ProdutoSevice produtoSevice) {
+    public ProdutoController(ProdutoSevice produtoSevice, CategoriaRepository categoriaRepository, FornecedorRepository fornecedorRepository) {
         this.produtoSevice = produtoSevice;
+        this.categoriaRepository = categoriaRepository;
+        this.fornecedorRepository = fornecedorRepository;
     }
 
     @GetMapping
@@ -68,6 +76,19 @@ public class ProdutoController {
         produto.setDescricao(dto.getDescricao());
         produto.setPreco(dto.getPreco());
         produto.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+
+        if (dto.getCategoriaId() != null) {
+            Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                    .orElseThrow(() -> new RuntimeException("Categoria não encontrada!"));
+            produto.setCategoria(categoria);
+        }
+
+        if (dto.getFornecedorId() != null) {
+            Fornecedor fornecedor = fornecedorRepository.findById(dto.getFornecedorId())
+                    .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado!"));
+            produto.setFornecedor(fornecedor);
+        }
+
         return produto;
     }
 }
